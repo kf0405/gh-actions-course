@@ -6,7 +6,7 @@ on:
             debug:
                 description: "Enable debug mode"
                 type: boolean
-                default: false
+                default: true
 run-name: 06 - Contexts | DEBUG - ${{ inputs.debug }}
 
 jobs:
@@ -23,5 +23,5 @@ jobs:
                 echo "Run ID: ${{ github.run_id }}"
                 echo "Run number: ${{ github.run_number }}"
             - name: Retrieve Variable
-              run: echo "$MY_VAR"
+              run: echo ${{vars.MY_VAR}}
             
