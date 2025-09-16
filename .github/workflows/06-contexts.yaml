@@ -3,15 +3,20 @@ on:
     push:
     workflow_dispatch: 
         inputs:
-            debug:
+            debug: # can be seen from manual dispatch button
                 description: "Enable debug mode"
                 type: boolean
                 default: true
 run-name: 06 - Contexts | DEBUG - ${{ inputs.debug }}
 
+env:
+    MY_WORKFLOW_VAR: "workflow"
+    MY_OVERWRITTEN_VAR: "workflow"
 jobs:
     echo-data:
         runs-on: ubuntu-latest
+        env:
+            MY_OVERWRITTEN_VAR: 'job'
         steps: 
             - name: Display Information
               run: |
@@ -24,4 +29,9 @@ jobs:
                 echo "Run number: ${{ github.run_number }}"
             - name: Retrieve Variable
               run: echo ${{vars.MY_VAR}}
-            
+            - name: Print Env Variables
+              env: 
+                MY_OVERWRITTEN_VAR: 'step'
+              run: |
+                echo "Workflow env: ${{env.MY_WORKFLOW_VAR}}"
+                echo "Overwritten env: ${{env.MY_OVERWRITTEN_VAR}}"
